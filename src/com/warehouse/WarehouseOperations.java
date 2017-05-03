@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,9 @@ public class WarehouseOperations {
 		}
 		if (rand == 4) {
 			String peachesUnit = String.valueOf(new Random().nextInt(60 - 30) + 30);
-			result = new Package("fruits", "peaches", "10.01.17", "20.10.19", "30", peachesUnit, fruitAttributes);
+
+			result = new Package("fruits", "peaches", "10.01.17", "20.10.19", "40", peachesUnit, fruitAttributes);
+
 		}
 		if (rand == 5) {
 			result = new Package("others", "cracker", "10.10.17", "20.10.17", "2",
@@ -91,6 +94,7 @@ public class WarehouseOperations {
 
 	public static SummaryDataModel generateSummary(List<Package> warehouseList) throws ParseException {
 
+
 		SummaryDataModel result = new SummaryDataModel();
 
 		for (Package packageNow : warehouseList) {
@@ -98,10 +102,11 @@ public class WarehouseOperations {
 				SummaryProducModel fruitItem = new SummaryProducModel();
 
 				if (packageNow.productDetails.name.toLowerCase().trim().contentEquals("apple")) {
-					fruitItem.producUnitTotal = Integer.valueOf(packageNow.productDetails.measure);
 					fruitItem.productName = packageNow.productDetails.name;
+					fruitItem.productUnit=Integer.valueOf(packageNow.productDetails.measure);
+					fruitItem.producUnitTotal = Integer.valueOf(packageNow.productDetails.measure);
 					fruitItem.producUnitPrice = Double.valueOf(packageNow.productDetails.price);
-					fruitItem.productUnit = Double.valueOf(packageNow.productDetails.measure);
+					
 					fruitItem.producTotalPrice = fruitItem.producUnitPrice * fruitItem.productUnit;
 
 				}
@@ -118,7 +123,7 @@ public class WarehouseOperations {
 					fruitItem.productName = packageNow.productDetails.name;
 					fruitItem.producUnitPrice = Double.valueOf(packageNow.productDetails.price);
 					fruitItem.productUnit = Double.valueOf(packageNow.productDetails.measure);
-					fruitItem.producTotalPrice = fruitItem.producUnitPrice * fruitItem.productUnit ;
+					fruitItem.producTotalPrice = fruitItem.producUnitPrice * fruitItem.productUnit;
 				}
 
 				result.fruitTotalQty += Double.valueOf(fruitItem.producUnitTotal);
@@ -228,6 +233,49 @@ public class WarehouseOperations {
 		}
 		
 		System.out.println(discount);
+		SummaryProducModel fruitItem = new SummaryProducModel();
+
+		SummaryDataModel result = new SummaryDataModel();
+
+		System.out.println(expiration + " -- " + currentDate);
+
+
+		System.out.println(diffDays);
+		double discountFromPrice=0;
+		String discountValue = "";
+		if (category.contains("fruit")) {
+			if(diffDays> 36){
+				 discountFromPrice =  fruitItem.producTotalPrice ;
+			}
+			if (diffDays <= 35 && diffDays >=28) {
+				discountValue = "10%";
+				discountFromPrice =  fruitItem.producTotalPrice * 0.1;
+			}
+			if(diffDays<=27 && diffDays>= 21){
+				discountValue = "20%";
+				discountFromPrice =  fruitItem.producTotalPrice * 0.2;
+			}
+			if(diffDays<=20 && diffDays>= 14){
+				discountValue = "30%";
+				discountFromPrice =  fruitItem.producTotalPrice * 0.3;
+			}
+			if(diffDays<=7 && diffDays> 0){
+				discountValue = "40%";
+				discountFromPrice=  fruitItem.producTotalPrice * 0.4;
+			}
+			if(diffDays==0 && diffDays< 0){
+				result.fruitslist.remove(fruitItem);
+		
+			}
+			
+	
+
+		}
+
+		if (category.contains("vegetable")) {
+
+		}
+
 		return discount;
 	}
 
@@ -235,6 +283,7 @@ public class WarehouseOperations {
 		
 		
 		
+		calculateDiscount("20.05.2017", "fruit");
 	}
 
 }
