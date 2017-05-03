@@ -8,6 +8,10 @@ public class SummaryProducModel {
 	public double producTotalPrice;
 	public double productDiscout;
 	public double productDiscoutValue;
+<<<<<<< HEAD
+=======
+
+>>>>>>> sebastianciocan
 	
 	
 	public String toString(){
