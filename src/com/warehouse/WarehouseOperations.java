@@ -48,11 +48,11 @@ public class WarehouseOperations {
 
 
 		LocalDate expiration = entryDate.plusMonths(6);
-		return expiration.format(df).toString();
+		return expiration.format(df);
 
 	}
 
-	public static Package randomPackageGenerator() {
+	public static Package randomPackageGenerator() throws ParseException {
 
 
 		Package result = null;
@@ -67,29 +67,29 @@ public class WarehouseOperations {
 
 		if (rand == 0) {
 			int appleUnit = (new Random().nextInt(250 - 50) + 50);
-			result = new Package("fruits", "apple", "10.05.2017", "10.05.2017",6, (6 * appleUnit) , appleUnit, fruitAttributes);
+			result = new Package("fruits", "apple", randomEntryDateGeneration(), calculateExpirationDate(randomEntryDateGeneration()),6, (6 * appleUnit) , appleUnit, fruitAttributes);
 		}
 		if (rand == 1) {
 			int potatosUnit = (new Random().nextInt(25 - 15) + 15);
-			result = new Package("vegetables", "potatoes", "10.10.2017", "07.05.2017",15, (15 * potatosUnit), potatosUnit,
+			result = new Package("vegetables", "potatoes", randomEntryDateGeneration(), calculateExpirationDate(randomEntryDateGeneration()),15, (15 * potatosUnit), potatosUnit,
 					vegetablesAttributes);
 		}
 		if (rand == 2) {
 			int onionsUnit = (new Random().nextInt(25 - 15) + 15);
-			result = new Package("vegetables", "onions", "10.10.17", "28.05.2017",2.5, (2.5 * onionsUnit), onionsUnit,
+			result = new Package("vegetables", "onions", randomEntryDateGeneration(), calculateExpirationDate(randomEntryDateGeneration()),2.5, (2.5 * onionsUnit), onionsUnit,
 					vegetablesAttributes);
 		}
 		if (rand == 3) {
 			int orangeUnit = (new Random().nextInt(25 - 15) + 15);
-			result = new Package("fruits", "orange", "10.02.17", "29.05.2017",13, (13 * orangeUnit), orangeUnit, fruitAttributes);
+			result = new Package("fruits", "orange", randomEntryDateGeneration(), calculateExpirationDate(randomEntryDateGeneration()),13, (13 * orangeUnit), orangeUnit, fruitAttributes);
 		}
 		if (rand == 4) {
 			int peachesUnit = (new Random().nextInt(60 - 30) + 30);
-			result = new Package("fruits", "peaches", "10.01.17", "27.06.2019",30, (30 * peachesUnit), peachesUnit, fruitAttributes);
+			result = new Package("fruits", "peaches", randomEntryDateGeneration(), calculateExpirationDate(randomEntryDateGeneration()),30, (30 * peachesUnit), peachesUnit, fruitAttributes);
 		}
 		if (rand == 5) {
 			int crackerUnit = (new Random().nextInt(10));
-			result = new Package("others", "cracker", "10.10.17", "01.01.2017",2, (2 * crackerUnit),crackerUnit);
+			result = new Package("others", "cracker", randomEntryDateGeneration(), calculateExpirationDate(randomEntryDateGeneration()),2, (2 * crackerUnit),crackerUnit);
 
 		}
 		return result;
